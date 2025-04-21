@@ -1,0 +1,25 @@
+<html>
+    <head></head>
+    <body></body>
+    <script>
+        let ws;
+        const proto = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+        ws = new WebSocket(`${proto}${window.location.host}/ws`);
+        ws.onopen = function() {
+            console.log('WebSocket connection opened');
+            ws.send('Hello from the client!');
+        };
+        ws.onmessage = function(event) {
+            console.log('Message from server: ', event.data);
+            const message = document.createElement('div');
+            message.textContent = event.data;
+            document.body.appendChild(message);
+        };
+        ws.onclose = function() {
+            console.log('WebSocket connection closed');
+        };
+        ws.onerror = function(error) {
+            console.error('WebSocket error: ', error);
+        };  
+    </script>
+</html>
